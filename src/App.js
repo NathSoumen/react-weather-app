@@ -7,17 +7,24 @@ function App() {
 
   const [query, setQuery] = useState('');
   const [weather, setWeather] = useState({})  
+
+  async function apiSubmit() {
+    const data = await fetchWeather(query)
+
+    setWeather(data)
+    setQuery('')
+  }
   const search = async (e) => {
     if (e.key === 'Enter') {
-      const data = await fetchWeather(query)
-
-      setWeather(data)
-      setQuery('')
+      apiSubmit()
     }
   }
-
+  const searchButon = () => {
+    apiSubmit()
+  }
   return (
     <div className="main-container">
+      <div className="input-handle">
       <input type='text' 
       className='search' 
       placeholder='Search ...' 
@@ -25,6 +32,10 @@ function App() {
       onChange={(e) => setQuery(e.target.value)}
       onKeyPress={search}
       />
+     <button onClick={searchButon} id="search_button"><i class="fas fa-search"></i></button>
+     </div>
+
+
       {weather.main && (
         <div className='city'>
           <h2 className='city-name'>
